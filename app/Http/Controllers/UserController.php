@@ -280,53 +280,14 @@ class UserController extends Controller
     	$data = $request->all();
     	try {
     		$user = User::where('id', $data['id'])->first();
-    		if(!empty($data['title']))
-    		{
-    			$user->title = $data['title'];
-    		}
-    		if(!empty($data['education_level']))
-    		{
-    			$user->education_level = $data['education_level'];
-    		}
-    		if(!empty($data['marital_status']))
-    		{
-    			$user->marital_status = $data['marital_status'];
-    		}
-    		if(!empty($data['employment_status']))
-    		{
-    			$user->employment_status = $data['employment_status'];
-    		}
-    		if(!empty($data['date_employed']))
-    		{
-    			$user->date_employed = $data['date_employed'];
-    		}
-    		if(!empty($data['monthly_income']))
-    		{
-    			$user->monthly_income = (double)$data['monthly_income'];
-    		}
-    		if(!empty($data['state_id']))
-    		{
-    			$user->state_id = $data['state_id'];
-    		}
-    		if(!empty($data['local_govt_id']))
-    		{
-    			$user->local_govt_id = $data['local_govt_id'];
-    		}
-    		if(!empty($data['address']))
-    		{
-    			$user->address = $data['address'];
-    		}
+    		
     		if(!empty($data['status']))
     		{
     			$user->status = $data['status'];
     		}
-    		if(!empty($data['gender']))
+    		if(!empty($data['fullname']))
     		{
-    			$user->gender = $data['gender'];
-    		}
-    		if(!empty($data['dob']))
-    		{
-    			$user->dob = Carbon::parse($data['dob']);
+    			$user->fullname = $data['fullname'];
     		}
             $user->is_verified = 1;
     		//avata should come in here
