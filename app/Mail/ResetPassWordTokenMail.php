@@ -46,6 +46,6 @@ class ResetPassWordTokenMail extends Mailable
      */
     public function build()
     {
-        return $this->from('passwordreset@letnote.ng')->subject('Welcome to Letnote Credits')->markdown('email.user.password_reset_token');
+        return $this->from('passwordreset@offlinesumo.ng')->subject('Welcome to Letnote Credits')->markdown('email.user.password_reset_token');
     }
 }

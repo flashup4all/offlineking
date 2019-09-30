@@ -39,6 +39,6 @@ class PasswordChange extends Mailable
      */
     public function build()
     {
-        return $this->from('passwordchanged@letnote.ng')->subject('Password Updates')->markdown('email.user.password_updated');
+        return $this->from('passwordchanged@offlinesumo.ng')->subject('Password Updates')->markdown('email.user.password_updated');
     }
 }

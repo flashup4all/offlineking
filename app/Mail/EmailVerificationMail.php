@@ -39,6 +39,6 @@ class EmailVerificationMail extends Mailable
      */
     public function build()
     {
-        return $this->from('AccountActivation@letnote.ng')->subject('Welcome to Letnote Credits')->view('email.user.email_verification');
+        return $this->from('AccountActivation@offlinesumo.ng')->subject('Welcome to Letnote Credits')->view('email.user.email_verification');
     }
 }
