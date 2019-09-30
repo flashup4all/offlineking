@@ -49469,9 +49469,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "url", function() { return url; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "img_url", function() { return img_url; });
-var url = 'http://localhost:8000/api/v1'; //'https://tfap.herokuapp.com/api/tfap';//
+var url = 'https://offlinesumo.herokuapp.com/api/v1'; //'http://localhost:8000/api/v1';//
 
-var img_url = 'http://localhost:8000/app/'; //'https://tfap.herokuapp.com/api/tfap';//
+var img_url = 'https://offlinesumo.herokuapp.com/app/'; //'http://localhost:8000/app/';//
 
 /*export const header = (token) => {
     return {
