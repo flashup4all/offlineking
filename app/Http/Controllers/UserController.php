@@ -68,7 +68,7 @@ class UserController extends Controller
         ]);
         $data = $request->all();    
         if(!User::where('email', $data['email'])->exists()){
-            return response()->json(["success" => 0, "message" => "Incorrect Email or Email does not exit"], 200);
+            return response()->json(["status" => 0, "msg" => "Incorrect Email or Email does not exit"], 200);
         }
         // $credentials = request(['email', 'password']);
         try {
