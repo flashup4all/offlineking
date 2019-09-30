@@ -2138,6 +2138,19 @@ __webpack_require__.r(__webpack_exports__);
     if (this.user.avatar != '') {
       this.url = _environments_environment__WEBPACK_IMPORTED_MODULE_0__["img_url"] + 'avatars/' + this.user.avatar;
     }
+  },
+  methods: {
+    /**
+     * @method logout
+     * logout a user
+     * session terminated
+     * @author @flashup4all
+     * @returns view
+     */
+    logout: function logout() {
+      _shared_storage_local_js__WEBPACK_IMPORTED_MODULE_1__["default"].clear_storage();
+      return this.$router.push('auth');
+    }
   }
 });
 
@@ -2651,6 +2664,12 @@ Vue.use(vee_validate__WEBPACK_IMPORTED_MODULE_0__["default"]);
                   status: true
                 }; //this.show_alert = true;
               }
+            } else {
+              _this.show_alert = {
+                msg: response.msg,
+                type: 'alert-danger',
+                status: true
+              };
             }
 
             if (res.status == 401) {}
@@ -32485,7 +32504,47 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _vm._m(4)
+          _c(
+            "div",
+            {
+              staticClass:
+                "dropdown-menu dropdown-menu-right shadow animated--grow-in",
+              attrs: { "aria-labelledby": "userDropdown" }
+            },
+            [
+              _vm._m(4),
+              _vm._v(" "),
+              _vm._m(5),
+              _vm._v(" "),
+              _vm._m(6),
+              _vm._v(" "),
+              _c("div", { staticClass: "dropdown-divider" }),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "dropdown-item",
+                  attrs: {
+                    href: "#",
+                    "data-toggle": "modal",
+                    "data-target": "#logoutModal"
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.logout()
+                    }
+                  }
+                },
+                [
+                  _c("i", {
+                    staticClass:
+                      "fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"
+                  }),
+                  _vm._v("\n          Logout\n        ")
+                ]
+              )
+            ]
+          )
         ])
       ])
     ]
@@ -32611,56 +32670,28 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "dropdown-menu dropdown-menu-right shadow animated--grow-in",
-        attrs: { "aria-labelledby": "userDropdown" }
-      },
-      [
-        _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-          _c("i", {
-            staticClass: "fas fa-user fa-sm fa-fw mr-2 text-gray-400"
-          }),
-          _vm._v("\n          Profile\n        ")
-        ]),
-        _vm._v(" "),
-        _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-          _c("i", {
-            staticClass: "fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"
-          }),
-          _vm._v("\n          Settings\n        ")
-        ]),
-        _vm._v(" "),
-        _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-          _c("i", {
-            staticClass: "fas fa-list fa-sm fa-fw mr-2 text-gray-400"
-          }),
-          _vm._v("\n          Activity Log\n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "dropdown-divider" }),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "dropdown-item",
-            attrs: {
-              href: "#",
-              "data-toggle": "modal",
-              "data-target": "#logoutModal"
-            }
-          },
-          [
-            _c("i", {
-              staticClass: "fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"
-            }),
-            _vm._v("\n          Logout\n        ")
-          ]
-        )
-      ]
-    )
+    return _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+      _c("i", { staticClass: "fas fa-user fa-sm fa-fw mr-2 text-gray-400" }),
+      _vm._v("\n          Profile\n        ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+      _c("i", { staticClass: "fas fa-cogs fa-sm fa-fw mr-2 text-gray-400" }),
+      _vm._v("\n          Settings\n        ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+      _c("i", { staticClass: "fas fa-list fa-sm fa-fw mr-2 text-gray-400" }),
+      _vm._v("\n          Activity Log\n        ")
+    ])
   }
 ]
 render._withStripped = true
@@ -33483,6 +33514,7 @@ var render = function() {
                         "router-link",
                         {
                           staticClass: "py-2 my-3",
+                          staticStyle: { color: "#4e73df" },
                           attrs: { to: { name: "forgot-password" } }
                         },
                         [
@@ -48798,8 +48830,8 @@ Vue.component('app-footer', __webpack_require__(/*! ./components/footer/Footer.v
 Vue.component('dashboard-layout', __webpack_require__(/*! ./components/layouts/DashboardLayout.vue */ "./resources/js/components/layouts/DashboardLayout.vue"));
 Vue.component('simple-layout', __webpack_require__(/*! ./components/layouts/SimpleLayout.vue */ "./resources/js/components/layouts/SimpleLayout.vue"));
 Vue.component('example-component', __webpack_require__(/*! ./modules/ExampleComponent.vue */ "./resources/js/modules/ExampleComponent.vue"));
-Vue.component('login-component', __webpack_require__(/*! ./modules/user/Login.vue */ "./resources/js/modules/user/Login.vue"));
-Vue.component('landing', __webpack_require__(/*! ./modules/dashboard/Landing.vue */ "./resources/js/modules/dashboard/Landing.vue")["default"]);
+Vue.component('login-component', __webpack_require__(/*! ./modules/user/Login.vue */ "./resources/js/modules/user/Login.vue")["default"]);
+Vue.component('landing', __webpack_require__(/*! ./modules/dashboard/Landing.vue */ "./resources/js/modules/dashboard/Landing.vue"));
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -49469,9 +49501,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "url", function() { return url; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "img_url", function() { return img_url; });
-var url = 'https://offlinesumo.herokuapp.com/api/v1'; //'http://localhost:8000/api/v1';//
+var url = 'http://localhost:8000/api/v1'; //'https://offlinesumo.herokuapp.com/api/v1';//
 
-var img_url = 'https://offlinesumo.herokuapp.com/app/'; //'http://localhost:8000/app/';//
+var img_url = 'http://localhost:8000/app/'; //'https://offlinesumo.herokuapp.com/app/';//
 
 /*export const header = (token) => {
     return {
@@ -49713,6 +49745,9 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: [{
     path: '*',
     redirect: '/auth'
+  }, {
+    path: '/',
+    redirect: '/auth'
   }, // partials
   {
     path: '/',
@@ -49747,6 +49782,15 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
       },
       component: function component() {
         return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ../modules/user/ForgetPassword.vue */ "./resources/js/modules/user/ForgetPassword.vue"));
+      }
+    }, {
+      path: '/reset-password/:user_crypt_id',
+      name: 'reset-password',
+      meta: {
+        layout: 'userpages'
+      },
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ../modules/user/ResetPassword.vue */ "./resources/js/modules/user/ResetPassword.vue"));
       }
     }]
   }, {
@@ -49899,6 +49943,10 @@ var local = {
   },
   get_user: function get_user() {
     return JSON.parse(window.localStorage.getItem('ofsuk'));
+  },
+  clear_storage: function clear_storage() {
+    window.localStorage.removeItem('ofsuk');
+    window.localStorage.removeItem('ofstk');
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (local);

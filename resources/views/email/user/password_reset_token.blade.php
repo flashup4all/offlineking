@@ -1,13 +1,12 @@
 @component('mail::message')
-# Reset Password Token
+# Reset Password Link
 
-## {{ $token }}
-this one time passwords expires in  5mins.
+please click on the button below to reset password. the link expires in  5mins.
 
-@component('mail::button', ['url' => config('app.url').'/auth/reset-password'])
-click to enter token
+@component('mail::button', ['url' => config('app.url').'/reset-password/'.\Crypt::encrypt($user->id)])
+Reset password
 @endcomponent
-
+##### please ignore or delete this maail if you did not initiate this action. thanks
 Thanks<br>
 {{ config('app.name') }}
 @endcomponent

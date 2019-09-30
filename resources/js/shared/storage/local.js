@@ -18,6 +18,13 @@ const local = {
     get_user()
     {
         return JSON.parse(window.localStorage.getItem('ofsuk'));
+    },
+
+    clear_storage()
+    {
+        window.localStorage.removeItem('ofsuk');
+        window.localStorage.removeItem('ofstk');
+
     }
   }
   export default local;

@@ -11,6 +11,10 @@ const router = new Router({
             path: '*',
             redirect: '/auth'
         },
+        {
+            path: '/',
+            redirect: '/auth'
+        },
         // partials
         {
             path: '/',
@@ -35,6 +39,12 @@ const router = new Router({
                     name: 'forgot-password',
                     meta: {layout: 'userpages'},
                     component: () => import('../modules/user/ForgetPassword.vue'),
+                },
+                {
+                    path: '/reset-password/:user_crypt_id',
+                    name: 'reset-password',
+                    meta: {layout: 'userpages'},
+                    component: () => import('../modules/user/ResetPassword.vue'),
                 },
             ]
         },

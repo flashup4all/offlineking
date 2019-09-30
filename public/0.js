@@ -9,6 +9,10 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vee_validate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vee-validate */ "./node_modules/vee-validate/dist/vee-validate.esm.js");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../environments/environment */ "./resources/js/environments/environment.js");
+/* harmony import */ var _shared_Alerts_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../shared/Alerts.vue */ "./resources/js/shared/Alerts.vue");
+/* harmony import */ var _shared_storage_local_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../shared/storage/local.js */ "./resources/js/shared/storage/local.js");
 //
 //
 //
@@ -48,45 +52,73 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
+
+
+
+Vue.use(vee_validate__WEBPACK_IMPORTED_MODULE_0__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    console.log('Component mounted.');
+  components: {
+    Alerts: _shared_Alerts_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  data: function data() {
+    return {
+      reset_password_form: {
+        email: null
+      },
+      submitted: false,
+      show_alert: {
+        msg: '',
+        type: '',
+        status: false
+      }
+    };
+  },
+  mounted: function mounted() {},
+  methods: {
+    /**
+     * @method authenticate
+     * authenticate a user
+     * grant access to the system
+     * @author @flashup4all
+     * @param request
+     * @returns response
+     */
+    authenticate: function authenticate() {
+      var _this = this;
+
+      this.submitted = true;
+      this.$validator.validate().then(function (valid) {
+        if (valid) {
+          axios.post("".concat(_environments_environment__WEBPACK_IMPORTED_MODULE_1__["url"], "/reset-password-token"), _this.reset_password_form).then(function (res) {
+            // this.results = response.data;
+            var response = res.data;
+            _this.submitted = false;
+
+            if (res.status == 200) {
+              if (response.status == 'ok') {
+                _this.show_alert = {
+                  msg: response.msg,
+                  type: 'alert-success',
+                  status: true
+                };
+                _this.reset_password_form.email = '';
+              } else {
+                _this.show_alert = {
+                  msg: response.msg,
+                  type: 'alert-danger',
+                  status: true
+                }; //this.show_alert = true;
+              }
+            }
+
+            if (res.status == 401) {}
+          });
+        }
+
+        _this.submitted = false;
+      });
+    }
   }
 });
 
@@ -157,32 +189,143 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", {}, [
-    _c("div", { attrs: { id: "wrapper" } }, [
-      _c("div", { staticClass: "container-fluid" }, [
-        _c("div", { staticClass: "row" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-6" }, [
-            _c("div", { staticClass: "card card-login" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "card-footer" },
-                [
-                  _c("router-link", { attrs: { to: { name: "auth" } } }, [
-                    _vm._v("Login?")
-                  ])
-                ],
-                1
-              )
-            ])
-          ])
-        ])
+    _c("div", { staticClass: "card card-centered w-50 py-2 px-2" }, [
+      _c("div", { staticClass: "card-body" }, [
+        _c(
+          "form",
+          {
+            attrs: { method: "post" },
+            on: {
+              submit: function($event) {
+                $event.stopPropagation()
+                $event.preventDefault()
+                return _vm.authenticate()
+              }
+            }
+          },
+          [
+            _c("p", { staticClass: "offline-king-header" }, [
+              _vm._v("Reset Password")
+            ]),
+            _vm._v(" "),
+            _vm.show_alert.status
+              ? _c("alerts", {
+                  attrs: {
+                    message: _vm.show_alert.msg,
+                    type: _vm.show_alert.type
+                  }
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            _c("label", { staticClass: "setting-form-label" }, [
+              _vm._v(" Email")
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "settings-form my-3",
+                class: { "is-invalid": _vm.errors.has("email") }
+              },
+              [
+                _c("div", { staticClass: "setting-input" }, [
+                  _c("i", { staticClass: "fas fa-envelope setting-icon" }),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.reset_password_form.email,
+                        expression: "reset_password_form.email"
+                      },
+                      {
+                        name: "validate",
+                        rawName: "v-validate",
+                        value: "required|email",
+                        expression: "'required|email'"
+                      }
+                    ],
+                    attrs: {
+                      type: "text",
+                      placeholder: " Arowosegbe67@gmail.com",
+                      name: "email"
+                    },
+                    domProps: { value: _vm.reset_password_form.email },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.reset_password_form,
+                          "email",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _vm.errors.has("email")
+              ? _c("p", { staticClass: "offline-sumo-alert-danger" }, [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(_vm.errors.first("email")) +
+                      "\n                    "
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm._m(0)
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-footer" }, [
+        _c(
+          "div",
+          { staticClass: "form-group" },
+          [
+            _c(
+              "p",
+              [
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "py-2 my-3",
+                    staticStyle: { color: "#4e73df" },
+                    attrs: { to: { name: "signup" } }
+                  },
+                  [_vm._v("Don't have an account ?")]
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "router-link",
+              { staticClass: "py-2 my-3", attrs: { to: { name: "auth" } } },
+              [
+                _c(
+                  "button",
+                  {
+                    staticClass:
+                      "btn btn-purple-gradient btn-rounded pad-2 text-uppercase",
+                    attrs: { "aria-expanded": "false" }
+                  },
+                  [_vm._v("login")]
+                )
+              ]
+            )
+          ],
+          1
+        )
       ])
-    ]),
-    _vm._v(" "),
-    _vm._m(2)
+    ])
   ])
 }
 var staticRenderFns = [
@@ -190,59 +333,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6" }, [
-      _c("h2", { staticClass: "offline-king-header text-center" }, [
-        _vm._v("From Zero, to Design Hero "),
-        _c("br"),
-        _vm._v(" in Minutes")
-      ])
+    return _c("div", { staticClass: "form-group" }, [
+      _c(
+        "button",
+        {
+          staticClass:
+            "btn btn-purple-gradient btn-rounded pad-2 text-uppercase",
+          attrs: { "aria-expanded": "false" }
+        },
+        [_vm._v("Reset Password")]
+      )
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-body" }, [
-      _c("form", { attrs: { action: "" } }, [
-        _c("label", { staticClass: "col-form-label label-custom" }, [
-          _vm._v("Email")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "input-group my-2" }, [
-          _c("div", { staticClass: "input-group-prepend" }, [
-            _c("div", { staticClass: "input-group-text" }, [
-              _c("i", { staticClass: "fas fa-plus" })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("input", {
-            staticClass: "form-control",
-            attrs: { type: "text", placeholder: "Arowosegbe67@gmail.com" }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-group" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-purple-gradient btn-rounded",
-              attrs: { "aria-expanded": "false" }
-            },
-            [_vm._v("Reset")]
-          )
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      { staticClass: "scroll-to-top rounded", attrs: { href: "#page-top" } },
-      [_c("i", { staticClass: "fas fa-angle-up" })]
-    )
   }
 ]
 render._withStripped = true

@@ -21,6 +21,7 @@ Route::prefix('v1')->group(function(){
     Route::get('verifyemail/{token}', 'UserController@activate_email_account');
 	Route::post('resend-activation-link', 'UserController@resend_activation_link');
 	Route::post('reset-password-token', 'UserController@send_reset_password_token');
+	Route::post('reset-password', 'UserController@reset_password');
 	Route::post('update-password', 'UserController@update_password');
 	Route::post('signup', 'UserController@register');
 	Route::group(['middleware' => 'auth:api'], function(){

@@ -281,7 +281,6 @@ Vue.use(vee_validate__WEBPACK_IMPORTED_MODULE_0__["default"]);
           _this.change_password_form.id = _this.user.id;
           axios.post("".concat(_environments_environment__WEBPACK_IMPORTED_MODULE_1__["url"], "/update-password"), _this.change_password_form).then(function (res) {
             var response = res.data;
-            console.log(res);
             _this.submitted = false;
 
             if (res.status == 200) {
@@ -370,7 +369,6 @@ Vue.use(vee_validate__WEBPACK_IMPORTED_MODULE_0__["default"]);
       };
       axios.post("".concat(_environments_environment__WEBPACK_IMPORTED_MODULE_1__["url"], "/user/image/update"), data, config).then(function (res) {
         var response = res.data;
-        console.log(response);
         _this3.profile_submitted = false;
 
         if (res.status == 200) {
@@ -390,9 +388,7 @@ Vue.use(vee_validate__WEBPACK_IMPORTED_MODULE_0__["default"]);
           }
         }
 
-        if (res.status == 422) {
-          console.log(res);
-        }
+        if (res.status == 422) {}
       }, function (error) {
         _this3.profile_submitted = false;
       });
@@ -439,8 +435,7 @@ Vue.use(vee_validate__WEBPACK_IMPORTED_MODULE_0__["default"]);
           }
         }
 
-        if (res.status == 422) {
-          console.log(res);
+        if (res.status == 422) {// console.log(res)
         }
       }, function (error) {
         _this4.referer_submitted = false;

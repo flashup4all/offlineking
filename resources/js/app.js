@@ -28,8 +28,8 @@ Vue.component('app-footer', require('./components/footer/Footer.vue'));
 Vue.component('dashboard-layout', require('./components/layouts/DashboardLayout.vue'));
 Vue.component('simple-layout', require('./components/layouts/SimpleLayout.vue'));
 Vue.component('example-component', require('./modules/ExampleComponent.vue'));
-Vue.component('login-component', require('./modules/user/Login.vue'));
-Vue.component('landing', require('./modules/dashboard/Landing.vue').default);
+Vue.component('login-component', require('./modules/user/Login.vue').default);
+Vue.component('landing', require('./modules/dashboard/Landing.vue'));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

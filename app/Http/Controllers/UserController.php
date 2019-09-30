@@ -36,6 +36,10 @@ class UserController extends Controller
     		return response()->json(['status'=> 'error', 'msg' => 'Email already exists, please reset your password if you can\'t remember']);
     	}
     	 try {
+             if(!empty($input['referer']))
+             {
+                $input['referer'] =  \Crypt::decrypt($input['referer']);
+             }
              DB::beginTransaction();
              $input['password'] = bcrypt($input['password']);
              $input['role_id'] = 3;
@@ -217,20 +221,23 @@ class UserController extends Controller
                 return response()->json(['status' => 'error', 'msg' => 'Oops!! this email does not exist on our system']);
             }
             $user = User::where('email', $data['email'])->first();
-            #save token to reset_password table
-            $token = rand(00000, 99999);
-            $store = DB::table('password_resets')->insert(
-                ['email' => $user->email, 'token' =>  $token, 'created_at' => Carbon::now() ]
-            );
+            #save token to reset_password table            
             #send activation mail job
-            $reset_token_job = (new ResetPassWordTokenJob($user, $token))->delay(Carbon::now()->addSeconds(3));
+            $reset_token_job = (new ResetPassWordTokenJob($user, 00000))->delay(Carbon::now()->addSeconds(3));
             dispatch($reset_token_job);
-            return response()->json(['status' => 'ok', 'msg' => 'Operation successful, Please a reset code (One Time Password) has been sent to your email']);
+            return response()->json(['status' => 'ok', 'msg' => 'Operation successful, Please a click on the reset link sent to your email']);
         } catch (Exception $e) {
             return $e->getMessage();
         }
     }
-     public static function update_password(Request $request)
+    /**
+     * update user password
+     *
+     * @method update_password
+     * @param  \App\User  $emailList
+     * @return \Illuminate\Http\Response
+     */
+    public static function update_password(Request $request)
     {
         $validatedData = $request->validate([
             "id" => "required",
@@ -254,7 +261,42 @@ class UserController extends Controller
             #send password change notification mail job
             $change_password_job = (new PasswordChangeJob($user))->delay(Carbon::now()->addSeconds(3));
             dispatch($change_password_job);
-            return response()->json(['status' => 'ok', 'msg' => 'Operation successful !!, password change successfully']);
+            return response()->json(['status' => 'ok', 'msg' => 'Operation successful, password change successful']);
+            
+            
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+    /**
+     * reset user password
+     *
+     * @method reset_password
+     * @param  \App\User  $emailList
+     * @return \Illuminate\Http\Response
+     */
+    public static function reset_password(Request $request)
+    {
+        $validatedData = $request->validate([
+            "ofikd" => "required",
+            'password' => 'required',
+            'c_password' => 'required|same:password',
+        ]);
+        // if($validator->fails()) {          
+    	//     return response()->json(['error'=>$validator->errors()], 401);
+    	// }
+        $data = $request->all();
+        try {
+            $user_id =  \Crypt::decrypt($data['ofikd']);
+            $user = User::where('id', $user_id)->select('id', 'password')->first();
+            #save token to reset_password table
+            $user->password = Hash::make($data['password']);
+            $user->save();
+            
+            #send password change notification mail job
+            $change_password_job = (new PasswordChangeJob($user))->delay(Carbon::now()->addSeconds(3));
+            dispatch($change_password_job);
+            return response()->json(['status' => 'ok', 'msg' => 'Operation successful, password reset successful. please click on login below']);
             
             
         } catch (Exception $e) {

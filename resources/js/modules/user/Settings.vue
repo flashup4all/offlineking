@@ -264,8 +264,6 @@
                       this.change_password_form.id = this.user.id;
                         axios.post(`${url}/update-password`, this.change_password_form).then(res => {
                             let response = res.data;
-                              console.log(res)
-
                             this.submitted = false;                            
                             if(res.status == 200)
                             {
@@ -353,7 +351,6 @@
               }
               axios.post(`${url}/user/image/update`, data, config).then(res => {
                 let response = res.data;
-                console.log(response)
                 this.profile_submitted = false;                            
                 if(res.status == 200)
                 {
@@ -375,7 +372,7 @@
                 }
                 if(res.status == 422)
                 {
-                  console.log(res)
+                  
                 }
               }, (error)=> {
                 this.profile_submitted = false;
@@ -421,7 +418,7 @@
                   }
                   if(res.status == 422)
                   {
-                    console.log(res)
+                   // console.log(res)
                   }
                 }, (error)=> {
                   this.referer_submitted = false;

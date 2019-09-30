@@ -39,7 +39,7 @@
                                 </div>
 
                                 <div class="col-md-6">
-                                    <p><router-link :to="{ name: 'forgot-password' }" class="py-2 my-3">
+                                    <p><router-link :to="{ name: 'forgot-password' }" style="color:#4e73df;" class="py-2 my-3">
                                         Forget Paasword ?</router-link></p>
                                 </div>
                             </div>
@@ -110,7 +110,7 @@
                         axios.post(`${url}/auth`, this.auth_form).then(res => {
                             // this.results = response.data;
                             let response = res.data;
-                            this.submitted = false;                            
+                            this.submitted = false;
                             if(res.status == 200)
                             {
                                 if(response.status == 'ok'){
@@ -130,6 +130,12 @@
                                     };
                                     //this.show_alert = true;
                                 }
+                            }else{
+                                this.show_alert = {
+                                    msg: response.msg,
+                                    type: 'alert-danger',
+                                    status: true
+                                };
                             }
                             if(res.status ==401)
                             {
