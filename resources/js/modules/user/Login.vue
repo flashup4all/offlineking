@@ -47,7 +47,9 @@
 
                         <div class="form-group">
                             <button class="btn btn-purple-gradient btn-rounded pad-2 text-uppercase"
-                                aria-expanded="false">Login</button>
+                                aria-expanded="false" :disabled="submitted">
+                                <i class="fa fa-spinner" v-if="submitted"></i>
+                                Login</button>
                         </div>
                     </form>
                 </div>

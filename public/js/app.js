@@ -2602,6 +2602,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -33530,7 +33532,22 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _vm._m(1)
+            _c("div", { staticClass: "form-group" }, [
+              _c(
+                "button",
+                {
+                  staticClass:
+                    "btn btn-purple-gradient btn-rounded pad-2 text-uppercase",
+                  attrs: { "aria-expanded": "false", disabled: _vm.submitted }
+                },
+                [
+                  _vm.submitted
+                    ? _c("i", { staticClass: "fa fa-spinner" })
+                    : _vm._e(),
+                  _vm._v("\n                            Login")
+                ]
+              )
+            ])
           ],
           1
         )
@@ -33600,22 +33617,6 @@ var staticRenderFns = [
           ]
         )
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c(
-        "button",
-        {
-          staticClass:
-            "btn btn-purple-gradient btn-rounded pad-2 text-uppercase",
-          attrs: { "aria-expanded": "false" }
-        },
-        [_vm._v("Login")]
-      )
     ])
   }
 ]

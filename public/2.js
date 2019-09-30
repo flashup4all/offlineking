@@ -558,7 +558,7 @@ var render = function() {
                   {
                     staticClass:
                       "btn btn-purple-gradient btn-rounded pad-2 text-uppercase",
-                    attrs: { "aria-expanded": "false" }
+                    attrs: { "aria-expanded": "false", disabled: _vm.submitted }
                   },
                   [
                     _vm.submitted

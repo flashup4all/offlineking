@@ -63,7 +63,7 @@
 
                         <div class="form-group">
                             <button class="btn btn-purple-gradient btn-rounded pad-2 text-uppercase"
-                                aria-expanded="false">
+                                aria-expanded="false" :disabled="submitted">
                                 <i class="fa fa-spinner" v-if="submitted"></i>
                                 Register</button>
                         </div>
