@@ -2675,10 +2675,10 @@ Vue.use(vee_validate__WEBPACK_IMPORTED_MODULE_0__["default"]);
             }
 
             if (res.status == 401) {}
+          }, function (error) {
+            _this.submitted = false;
           });
         }
-
-        _this.submitted = false;
       });
     }
   }

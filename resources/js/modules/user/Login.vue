@@ -143,9 +143,11 @@
                             {
 
                             }
+                        }, (error)=> {
+                            this.submitted = false;
                         });   
                     }
-                    this.submitted = false;
+                    
                 });
             }
         }

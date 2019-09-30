@@ -70,6 +70,10 @@ class UserController extends Controller
         if(!User::where('email', $data['email'])->exists()){
             return response()->json(["status" => 0, "msg" => "Incorrect Email or Email does not exit"], 200);
         }
+        // if(!self::user_email_verification_status($data['email']))
+        // {
+        //     return response()->json(["status" => 0, "msg" => "account not yet active, please click on the activation link sent to your email"], 200);
+        // }
         // $credentials = request(['email', 'password']);
         try {
             if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
