@@ -11,7 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/{any}', function () {
+    return view('layouts.offline_sumo');
+})->where('any', '.*');
 Route::get('verifyemail/{token}', 'UserController@activate_email_account');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

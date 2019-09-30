@@ -17,12 +17,16 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             // $table->unsignedBigInteger('role_id')->foreign('role_id')->references('id')->on('user_roles')->default(5);
             $table->enum('user_role', ['admin', 'manager', 'editor', 'read'])->default('admin');
-            $table->string('fullname');
+            $table->string('username');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('avatar')->nullable();
+            $table->boolean('subscribe')->default(0);
             $table->enum('status', ['Active', 'Pending', 'Suspended', 'Closed'])->default('Pending');
+            $table->string('billing_plan')->nullable();
+            $table->string('profession')->nullable();
+            $table->bigInteger('referer')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

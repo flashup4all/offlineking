@@ -8,8 +8,9 @@ use App\User;
 use App\Jobs\EmailVerificationJob;
 use App\Jobs\ResetPassWordTokenJob;
 use App\Jobs\PasswordChangeJob;
+use App\Jobs\ReferAFriendJob;
 use Carbon\Carbon;
-use Validator, DB, Auth, Redirect, Hash;
+use Validator, DB, Auth, Redirect, Hash, Storage;
 
 class UserController extends Controller
 {
@@ -20,8 +21,8 @@ class UserController extends Controller
      * @return response
      */
      public function register(Request $request) {    
-    	 $validator = Validator::make($request->all(), [ 
-    	              'fullname' => 'required',
+    	$validator = Validator::make($request->all(), [ 
+    	              'username' => 'required',
     	              'email' => 'required|email',
     	              'password' => 'required',  
     	              'c_password' => 'required|same:password', 
@@ -32,7 +33,7 @@ class UserController extends Controller
     	$input = $request->all();  
     	if(User::where('email', $input['email'])->exists())
     	{
-    		return response()->json(['status'=> 'error', 'msg' => 'Email already exists, please reset your password if ypu cant remember']);
+    		return response()->json(['status'=> 'error', 'msg' => 'Email already exists, please reset your password if you can\'t remember']);
     	}
     	 try {
              DB::beginTransaction();
@@ -44,7 +45,7 @@ class UserController extends Controller
             DB::commit();
              $email_job = (new EmailVerificationJob($user))->delay(Carbon::now()->addSeconds(3));
              dispatch($email_job);
-             return response()->json(['status'=> 'ok', 'msg' => 'Account Created successfully', 'data'=>$user], 200); 
+             return response()->json(['status'=> 'ok', 'msg' => 'Account Created successfully. please click on the activation link sent to your email', 'data'=>$user], 200); 
          } catch (Exception $e) {
              DB::rollback();
          }
@@ -71,7 +72,7 @@ class UserController extends Controller
                 $user = Auth::user(); 
                 $token =  $user->createToken('AppName')->accessToken; 
                 activity()->causedBy($user)->performedOn($user)->withProperties(['id' => $user->id])->log('You login to account');
-                return response()->json(['status' => 'ok', 'token' => $token, 'user' => $user, 'msg'=>'Authentication Successfull'], 200); 
+                return response()->json(['status' => 'ok', 'token' => $token, 'user' => $user, 'msg'=>'Authentication Successfull: redirecting '], 200); 
             } else{ 
                 return response()->json(['status' => 'error', 'msg'=>'Incorrect Password'], 201); 
             } 
@@ -231,36 +232,29 @@ class UserController extends Controller
     }
      public static function update_password(Request $request)
     {
-        // $validatedData = $request->validate([
-        //     "email" => "required",
-        //     "token" => "required",
-        //     'password' => 'required',
-        //     'password_confirm' => 'required',
-        // ]);
+        $validatedData = $request->validate([
+            "id" => "required",
+            "old_password" => "required",
+            'password' => 'required',
+            'c_password' => 'required|same:password',
+        ]);
+        // if($validator->fails()) {          
+    	//     return response()->json(['error'=>$validator->errors()], 401);
+    	// }
         $data = $request->all();
         try {
-            if(!self::email_exist($data['email']))
-            {
-                return response()->json(['status' => 'error', 'msg' => 'Oops!! this email does not exist on our system']);
+            $user = User::where('id', $data['id'])->select('id', 'password')->first();
+            #save token to reset_password table
+            if(!Hash::check($data['old_password'], $user->password)){
+                return response()->json(['status' => 'error', 'msg' => 'Error !!, current password do not match existing password']);
             }
-            //compare provided ton with hash token
-            $reset_data = DB::table('password_resets')->where('email', $data['email'])->orderBy('created_at', 'desc')->take(1)->get();
-
-            if($reset_data[0]->token == $data['token'])
-            {
-                $user = User::where('email', $data['email'])->first();
-                #save token to reset_password table
-        
-                $user->password = Hash::make($data['password']);
-                $user->save();
-                
-                #send password change notification mail job
-                $change_password_job = (new PasswordChangeJob($user))->delay(Carbon::now()->addSeconds(3));
-                dispatch($change_password_job);
-                return response()->json(['status' => 'ok', 'msg' => 'Operation successful, password change successful, please login with your new password']);
-            }else{
-                return response()->json(['status' => 'error', 'msg' => 'Token not corrct']);
-            }
+            $user->password = Hash::make($data['password']);
+            $user->save();
+            
+            #send password change notification mail job
+            $change_password_job = (new PasswordChangeJob($user))->delay(Carbon::now()->addSeconds(3));
+            dispatch($change_password_job);
+            return response()->json(['status' => 'ok', 'msg' => 'Operation successful !!, password change successfully']);
             
             
         } catch (Exception $e) {
@@ -285,16 +279,20 @@ class UserController extends Controller
     		{
     			$user->status = $data['status'];
     		}
-    		if(!empty($data['fullname']))
+    		if(!empty($data['username']))
     		{
-    			$user->fullname = $data['fullname'];
+    			$user->username = $data['username'];
+            }
+            if(!empty($data['profession']))
+    		{
+    			$user->profession = $data['profession'];
     		}
-            $user->is_verified = 1;
+           
     		//avata should come in here
 
     		$user->save();
     		activity()->causedBy($user)->performedOn($user)->withProperties(['id' => $user->id])->log('You updated your profile');
-    		return response()->json(['status' => 'ok', 'data' => $user, 'msg'=> 'Data Updated Successfully'], 200);
+    		return response()->json(['status' => 'ok', 'data' => $user, 'msg'=> 'Profile Data Updated Successfully'], 200);
     	} catch (Exception $e) {
     		
     	}
@@ -316,17 +314,18 @@ class UserController extends Controller
 
             if ($request->hasFile('avatar')) {
                 
-                /*$image = $request->file('avatar');
-                $name = time().'.'.$image->getClientOriginalExtension();
-                $destinationPath = public_path('/images');*/
-                $path = $request->file('avatar')->store('avatars');
-                // $image->move($destinationPath, $name);
-                $user = User::where('id', $request->input('user_id'))->select('id', 'avatar')->first();
+                $user = User::where('id', $request->input('user_id'))->first();
+                $image = $request->file('avatar');
+                $name = date('YmdHis').'.'.$user->id.'.'.$image->getClientOriginalExtension();
+                $path = public_path('/app/avatars');
+                
+                //$path = $request->file('avatar')->store('avatars');
                 if($user->avatar){
                     #delete old avata | img 
                    self::delete_user_image($user->avatar);
                 }
-                $user->avatar = $path;
+                $image->move($path, $name);
+                $user->avatar = $name;
                 $user->save();
                 activity()->causedBy($user->id)->performedOn($user)->withProperties(['id' => $user->id])->log('User avatar updated');
                 return response()->json(['status' => 'ok','data'=> $user, 'msg'=>'Image Upload successfully']);
@@ -367,6 +366,41 @@ class UserController extends Controller
      */
     public static function delete_user_image($avata_path)
     {
-         Storage::delete($avata_path);
+        $path = public_path().'/app/avatars/'.$avata_path;
+        if(file_exists($path))
+        {
+            unlink($path);
+        }
+        //  Storage::delete($avata_path);
+    }
+    /**
+     * get user email verified status
+     *
+     * @method refer_a_friend
+     * @param  \App\User  $emailList
+     * @return \Illuminate\Http\Response
+     */
+    public static function refer_a_friend(Request $request)
+    {
+        $validatedData = $request->validate([
+            "email" => "required",
+            "user_id" => "required",
+        ]);
+        $data = $request->all();
+        // $user_id =  \Crypt::crypt($data['user_id']);
+        try {
+            if(self::email_exist($data['email'])){
+                return response()->json(['status' => 'error', 'msg'=>'Reffered email is already registered!']);
+            }
+            $user = User::where('id', $data['user_id'])->select('id', 'username', 'email')->first();
+            #send activation mail job
+            $email_job = (new ReferAFriendJob($user, $data['email']))->delay(Carbon::now()->addSeconds(3));
+            dispatch($email_job);
+            //$url = env('APP_URL')."/auth/email-verified";
+            // return Redirect::to($url);
+            return response()->json(['status' => 'ok', 'msg'=>'Referer Invite sent']);
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
 }

@@ -29,5 +29,7 @@ Route::prefix('v1')->group(function(){
 	Route::prefix('user')->group(function(){
 		Route::post('getUser', 'UserController@getUser');
 		Route::post('update', 'UserController@update');
+		Route::post('image/update', 'UserController@upload_user_image');
+		Route::post('refer-a-friend', 'UserController@refer_a_friend');
 	});
 });
