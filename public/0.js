@@ -277,32 +277,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 // import {ImageEditor} from '@toast-ui/vue-image-editor';
 
 
@@ -703,15 +677,7 @@ var render = function() {
                           }
                         },
                         [_vm._m(17)]
-                      ),
-                      _vm._v(" "),
-                      _vm._m(18),
-                      _vm._v(" "),
-                      _vm._m(19),
-                      _vm._v(" "),
-                      _vm._m(20),
-                      _vm._v(" "),
-                      _vm._m(21)
+                      )
                     ])
                   ])
                 : _vm._e(),
@@ -847,9 +813,9 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _vm._m(22),
+    _vm._m(18),
     _vm._v(" "),
-    _vm._m(23)
+    _vm._m(19)
   ])
 }
 var staticRenderFns = [
@@ -1353,132 +1319,6 @@ var staticRenderFns = [
         ])
       ]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c(
-        "div",
-        {
-          staticStyle: {
-            width: "80%",
-            padding: "25px 15px",
-            "border-radius": "10px",
-            "font-size": "1.9em",
-            "font-weight": "bold"
-          }
-        },
-        [
-          _c("p", { staticClass: "text-center" }, [
-            _c("span", { staticStyle: { color: "#1cc88a" } }, [
-              _vm._v("Though")
-            ]),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v("\n                            You can't do it")
-          ]),
-          _vm._v(" "),
-          _c("p", { staticClass: "text-center" }, [_vm._v(":)")])
-        ]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c(
-        "div",
-        {
-          staticStyle: {
-            width: "80%",
-            padding: "25px 15px",
-            "border-radius": "10px",
-            "font-size": "1.9em",
-            "font-weight": "bold"
-          }
-        },
-        [
-          _c(
-            "p",
-            { staticClass: "text-center", staticStyle: { color: "#e83e8c" } },
-            [_vm._v("Be The One")]
-          )
-        ]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c(
-        "div",
-        {
-          staticStyle: {
-            width: "80%",
-            padding: "25px 15px",
-            "border-radius": "10px",
-            "font-size": "1.9em",
-            "font-weight": "bold"
-          }
-        },
-        [
-          _c(
-            "p",
-            {
-              staticClass: "text-center",
-              staticStyle: { color: "#fd7e14", "font-weight": "bolder" }
-            },
-            [
-              _c("span", { staticStyle: { color: "#a47af4" } }, [
-                _vm._v("Oh...")
-              ]),
-              _vm._v("\n                            They say I can fly :)")
-            ]
-          )
-        ]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c(
-        "div",
-        {
-          staticStyle: {
-            width: "80%",
-            padding: "25px 15px",
-            "border-radius": "10px",
-            "font-size": "1.9em"
-          }
-        },
-        [
-          _c("p", { staticClass: "text-center" }, [
-            _c(
-              "span",
-              {
-                staticStyle: {
-                  color: "rgb(148, 146, 146)",
-                  "font-weight": "bolder"
-                }
-              },
-              [_vm._v("We will miss your")]
-            ),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v("\n                            PlayStation dude :(")
-          ])
-        ]
-      )
-    ])
   },
   function() {
     var _vm = this

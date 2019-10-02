@@ -161,32 +161,6 @@
                                 Don't jump dude!</p>
                             </div>
                         </div>
-                        <div>
-                            <div style="width: 80%; padding: 25px 15px;border-radius: 10px;font-size: 1.9em;font-weight: bold;">
-                                <p class="text-center"><span style="color: #1cc88a;">Though</span> <br>
-                                You can't do it</p>
-                                <p class="text-center">:)</p>
-                            </div>
-                        </div>
-                        <div>
-                            <div style="width: 80%; padding: 25px 15px;border-radius: 10px;font-size: 1.9em;font-weight: bold;">
-                                <p class="text-center" style="color: #e83e8c;">Be The One</p>
-                                
-                            </div>
-                        </div>
-                        <div>
-                            <div style="width: 80%; padding: 25px 15px;border-radius: 10px;font-size: 1.9em;font-weight: bold;">
-                                <p class="text-center" style="color: #fd7e14;font-weight: bolder;"><span style="color: #a47af4;">Oh...</span>
-                                They say I can fly :)</p>
-                            </div>
-                        </div>
-                        <div>
-                            <div style="width: 80%; padding: 25px 15px;border-radius: 10px;font-size: 1.9em;">
-                                <p class="text-center"><span style=" color: rgb(148, 146, 146);font-weight: bolder;">We will miss your</span> <br>
-                                PlayStation dude :(</p>
-                            </div>
-                        </div>
-                    
                   </div>
               </div>
               <div v-if="group_divs.name == 'colors_div'" style="padding-right: 20px;">
