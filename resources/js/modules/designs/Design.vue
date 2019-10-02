@@ -2,7 +2,9 @@
 
     <div>
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow">
-          <a class="navbar-brand" href=""><img src="../../assets/Icons/arrow-point-to-right.svg" alt="" style="width: .8em; transform: rotate(180deg);"></a>
+          <router-link :to="{ name: 'app' }" class="navbar-brand">
+              <img src="../../assets/Icons/arrow-point-to-right.svg" alt="" style="width: .8em; transform: rotate(180deg);">
+          </router-link>
           <button class="nav-toggle btn btn-purple-gradient the-toggle" type="button" data-target=".navbar-collapse" data-toggle="collapse"><i class="fas fa-bars"></i></button>
         
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -252,7 +254,10 @@
                   </ul>
                 </div>
                 <div class="">
-                  <p class="text-center">UI/UX</p>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
                   <div class="row">
                       <canvas id="canvas"></canvas>
                       <!-- <img  src="../../assets/img/user.jpg" id="my-image"> -->

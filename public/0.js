@@ -298,6 +298,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 // import {ImageEditor} from '@toast-ui/vue-image-editor';
 
 
@@ -470,9 +475,21 @@ var render = function() {
       "nav",
       { staticClass: "navbar navbar-expand-lg navbar-light bg-white shadow" },
       [
-        _vm._m(0),
+        _c(
+          "router-link",
+          { staticClass: "navbar-brand", attrs: { to: { name: "app" } } },
+          [
+            _c("img", {
+              staticStyle: { width: ".8em", transform: "rotate(180deg)" },
+              attrs: {
+                src: __webpack_require__(/*! ../../assets/Icons/arrow-point-to-right.svg */ "./resources/js/assets/Icons/arrow-point-to-right.svg"),
+                alt: ""
+              }
+            })
+          ]
+        ),
         _vm._v(" "),
-        _vm._m(1),
+        _vm._m(0),
         _vm._v(" "),
         _c(
           "div",
@@ -481,10 +498,10 @@ var render = function() {
             attrs: { id: "navbarSupportedContent" }
           },
           [
-            _vm._m(2),
+            _vm._m(1),
             _vm._v(" "),
             _c("ul", { staticClass: "navbar-nav my-2 my-lg-0 ad-nav" }, [
-              _vm._m(3),
+              _vm._m(2),
               _vm._v(" "),
               _c(
                 "li",
@@ -496,7 +513,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._m(4)]
+                [_vm._m(3)]
               ),
               _vm._v(" "),
               _c(
@@ -509,23 +526,24 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._m(5)]
+                [_vm._m(4)]
               ),
+              _vm._v(" "),
+              _vm._m(5),
               _vm._v(" "),
               _vm._m(6),
               _vm._v(" "),
               _vm._m(7),
               _vm._v(" "),
-              _vm._m(8),
-              _vm._v(" "),
               _c("div", { staticClass: "topbar-divider d-none d-sm-block" }),
               _vm._v(" "),
               _c("li", { staticClass: "nav-item no-arrow mx-1 my-1" }),
-              _vm._m(9)
+              _vm._m(8)
             ])
           ]
         )
-      ]
+      ],
+      1
     ),
     _vm._v(" "),
     _c(
@@ -560,7 +578,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm._m(10),
+          _vm._m(9),
           _vm._v(" "),
           _c(
             "li",
@@ -571,10 +589,10 @@ var render = function() {
                 }
               }
             },
-            [_vm._m(11)]
+            [_vm._m(10)]
           ),
           _vm._v(" "),
-          _vm._m(12),
+          _vm._m(11),
           _vm._v(" "),
           _c(
             "li",
@@ -585,7 +603,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._m(13)]
+            [_vm._m(12)]
           ),
           _vm._v(" "),
           _c("li", [
@@ -612,7 +630,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm._m(14)
+          _vm._m(13)
         ]),
         _vm._v(" "),
         _vm.group_divs.status
@@ -637,15 +655,15 @@ var render = function() {
                     _vm._v(" "),
                     _c("br"),
                     _vm._v(" "),
-                    _vm._m(15)
+                    _vm._m(14)
                   ])
                 : _vm._e(),
               _vm._v(" "),
               _vm.group_divs.name == "upload_div"
                 ? _c("div", { staticStyle: { "padding-right": "20px" } }, [
-                    _vm._m(16),
+                    _vm._m(15),
                     _vm._v(" "),
-                    _vm._m(17)
+                    _vm._m(16)
                   ])
                 : _vm._e(),
               _vm._v(" "),
@@ -684,16 +702,16 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._m(18)]
+                        [_vm._m(17)]
                       ),
+                      _vm._v(" "),
+                      _vm._m(18),
                       _vm._v(" "),
                       _vm._m(19),
                       _vm._v(" "),
                       _vm._m(20),
                       _vm._v(" "),
-                      _vm._m(21),
-                      _vm._v(" "),
-                      _vm._m(22)
+                      _vm._m(21)
                     ])
                   ])
                 : _vm._e(),
@@ -829,26 +847,12 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _vm._m(23),
+    _vm._m(22),
     _vm._v(" "),
-    _vm._m(24)
+    _vm._m(23)
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "navbar-brand", attrs: { href: "" } }, [
-      _c("img", {
-        staticStyle: { width: ".8em", transform: "rotate(180deg)" },
-        attrs: {
-          src: __webpack_require__(/*! ../../assets/Icons/arrow-point-to-right.svg */ "./resources/js/assets/Icons/arrow-point-to-right.svg"),
-          alt: ""
-        }
-      })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -1538,7 +1542,13 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("div", {}, [
-          _c("p", { staticClass: "text-center" }, [_vm._v("UI/UX")]),
+          _c("br"),
+          _vm._v(" "),
+          _c("br"),
+          _vm._v(" "),
+          _c("br"),
+          _vm._v(" "),
+          _c("br"),
           _vm._v(" "),
           _c("div", { staticClass: "row" }, [
             _c("canvas", { attrs: { id: "canvas" } })
