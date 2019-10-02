@@ -277,6 +277,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 // import {ImageEditor} from '@toast-ui/vue-image-editor';
 
 
@@ -356,15 +360,44 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.canvas.add(iText4);
     },
-    onAddImage: function onAddImage() {
-      var imgElement = document.getElementById('my-image');
-      var imgInstance = new fabric__WEBPACK_IMPORTED_MODULE_0__["fabric"].Image(imgElement, {
-        left: 100,
-        top: 100,
-        angle: 30,
-        opacity: 0.85
+    onAddImage: function onAddImage(id) {
+      var _this = this;
+
+      var imgElement = document.getElementById(id);
+      var imgInstance = new fabric__WEBPACK_IMPORTED_MODULE_0__["fabric"].Image(imgElement, function (img) {
+        var scale = 900 / img.width;
+        img.set({
+          // left: left,
+          top: top,
+          scaleX: 300 / img.width,
+          scaleY: 300 / img.height // angle: 0,
+          // padding: 10,
+          // cornersize: 10,
+          // hasRotatingPoint:true,
+
+        });
+
+        _this.canvas.add(image);
       });
       this.canvas.add(imgInstance);
+    },
+    deleteObject: function deleteObject() {
+      var activeObject = this.canvas.getActiveObject(),
+          activeGroup = this.canvas.getActiveGroup();
+
+      if (activeObject) {
+        if (confirm('Are you sure?')) {
+          this.canvas.remove(activeObject);
+        }
+      } else if (activeGroup) {
+        if (confirm('Are you sure?')) {
+          var objectsInGroup = activeGroup.getObjects();
+          canvas.discardActiveGroup();
+          objectsInGroup.forEach(function (object) {
+            this.canvas.remove(object);
+          });
+        }
+      }
     },
     check_active_object_type: function check_active_object_type(e) {
       console.log(e);
@@ -374,6 +407,31 @@ __webpack_require__.r(__webpack_exports__);
     },
     redo: function redo() {
       this.canvas.redo();
+    },
+    onFileChange: function onFileChange(e) {
+      var file = e.target.files[0];
+      var url = URL.createObjectURL(file);
+      var imgInstance = new fabric__WEBPACK_IMPORTED_MODULE_0__["fabric"].Image(url, {
+        left: 100,
+        top: 100,
+        angle: 30,
+        opacity: 0.85
+      });
+      this.canvas.add(imgInstance); //   let url = URL.createObjectURL(file);
+      //let data = new FormData();
+      // data.append('name', 'my-picture');
+      //data.append('avatar', event.target.files[0]); 
+      //var file = e.target.files[0];
+      // var reader = new FileReader();
+      // reader.onload = function(f) {
+      //     var data = f.target.result;
+      //     fabric.Image.fromURL(data, function(img) {
+      //         var oImg = img.set({ left: 50, top: 100 }).scale(0.9);
+      //         this.canvas.add(oImg).renderAll();
+      //         this.canvas.setActiveObject(oImg);
+      //     });
+      // };
+      // reader.readAsDataURL(file);
     }
   }
 });
@@ -475,8 +533,6 @@ var render = function() {
             _vm._m(1),
             _vm._v(" "),
             _c("ul", { staticClass: "navbar-nav my-2 my-lg-0 ad-nav" }, [
-              _vm._m(2),
-              _vm._v(" "),
               _c(
                 "li",
                 {
@@ -487,7 +543,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._m(3)]
+                [_vm._m(2)]
               ),
               _vm._v(" "),
               _c(
@@ -500,19 +556,13 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._m(4)]
+                [_vm._m(3)]
               ),
-              _vm._v(" "),
-              _vm._m(5),
-              _vm._v(" "),
-              _vm._m(6),
-              _vm._v(" "),
-              _vm._m(7),
               _vm._v(" "),
               _c("div", { staticClass: "topbar-divider d-none d-sm-block" }),
               _vm._v(" "),
               _c("li", { staticClass: "nav-item no-arrow mx-1 my-1" }),
-              _vm._m(8)
+              _vm._m(4)
             ])
           ]
         )
@@ -552,7 +602,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm._m(9),
+          _vm._m(5),
           _vm._v(" "),
           _c(
             "li",
@@ -563,10 +613,10 @@ var render = function() {
                 }
               }
             },
-            [_vm._m(10)]
+            [_vm._m(6)]
           ),
           _vm._v(" "),
-          _vm._m(11),
+          _vm._m(7),
           _vm._v(" "),
           _c(
             "li",
@@ -577,7 +627,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._m(12)]
+            [_vm._m(8)]
           ),
           _vm._v(" "),
           _c("li", [
@@ -604,7 +654,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm._m(13)
+          _vm._m(9)
         ]),
         _vm._v(" "),
         _vm.group_divs.status
@@ -629,15 +679,106 @@ var render = function() {
                     _vm._v(" "),
                     _c("br"),
                     _vm._v(" "),
-                    _vm._m(14)
+                    _vm._m(10)
                   ])
                 : _vm._e(),
               _vm._v(" "),
               _vm.group_divs.name == "upload_div"
                 ? _c("div", { staticStyle: { "padding-right": "20px" } }, [
-                    _vm._m(15),
+                    _c("div", [
+                      _c("div", [
+                        _c("p", { staticClass: "text-primary" }, [
+                          _vm._v("Upload an image here")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          { staticClass: "btn btn-primary btn-rounded" },
+                          [
+                            _c("label", { attrs: { for: "image" } }, [
+                              _c("input", {
+                                staticStyle: { display: "none" },
+                                attrs: {
+                                  type: "file",
+                                  name: "image",
+                                  id: "image"
+                                },
+                                on: { change: _vm.onFileChange }
+                              }),
+                              _vm._v(" "),
+                              _c("img", {
+                                staticStyle: { width: "1.4em" },
+                                attrs: {
+                                  src: __webpack_require__(/*! ../../assets/Icons/upload-slim.svg */ "./resources/js/assets/Icons/upload-slim.svg"),
+                                  alt: ""
+                                }
+                              }),
+                              _vm._v(
+                                "   SELECT FILE\n                             "
+                              )
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("br"),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("p", [
+                          _vm._v(
+                            "You can also drag and drop 1 or more pictures"
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("br")
+                    ]),
                     _vm._v(" "),
-                    _vm._m(16)
+                    _c("div", [
+                      _c(
+                        "p",
+                        {
+                          staticClass: "text-primary",
+                          staticStyle: { "padding-bottom": "10px" }
+                        },
+                        [_vm._v("Recent Uploads")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", [
+                        _c(
+                          "div",
+                          {
+                            staticStyle: {
+                              width: "80%",
+                              color: "white",
+                              padding: "10px",
+                              "border-radius": "10px",
+                              "font-size": "1.9em",
+                              "font-weight": "bold"
+                            },
+                            on: {
+                              click: function($event) {
+                                return _vm.onAddImage("recent1")
+                              }
+                            }
+                          },
+                          [
+                            _c("img", {
+                              attrs: {
+                                src: __webpack_require__(/*! ../../assets/img/recent.jpg */ "./resources/js/assets/img/recent.jpg"),
+                                alt: "",
+                                id: "recent1",
+                                height: "150px",
+                                width: "200px"
+                              }
+                            })
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(11),
+                      _vm._v(" "),
+                      _vm._m(12)
+                    ])
                   ])
                 : _vm._e(),
               _vm._v(" "),
@@ -676,7 +817,7 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._m(17)]
+                        [_vm._m(13)]
                       )
                     ])
                   ])
@@ -813,9 +954,32 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _vm._m(18),
+    _c("div", { staticClass: "color-list" }, [
+      _c("div", { staticClass: "container-fluid edit" }, [
+        _vm._m(14),
+        _vm._v(" "),
+        _vm._m(15),
+        _vm._v(" "),
+        _c("div", { staticClass: "list" }, [
+          _c("ul", [
+            _vm._m(16),
+            _vm._v(" "),
+            _c("li", { on: { click: _vm.deleteObject } }, [
+              _c("img", {
+                attrs: {
+                  src: __webpack_require__(/*! ../../assets/Icons/delete-photo.svg */ "./resources/js/assets/Icons/delete-photo.svg"),
+                  alt: ""
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _vm._m(17)
+          ])
+        ])
+      ])
+    ]),
     _vm._v(" "),
-    _vm._m(19)
+    _vm._m(18)
   ])
 }
 var staticRenderFns = [
@@ -863,19 +1027,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c("a", { staticClass: "text-dark nav-link", attrs: { href: "#" } }, [
-        _c("img", {
-          attrs: { src: __webpack_require__(/*! ../../assets/Icons/eye.svg */ "./resources/js/assets/Icons/eye.svg"), alt: "" }
-        }),
-        _vm._v(" Preview")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("a", { staticClass: "text-dark nav-link" }, [
       _c("img", {
         attrs: { src: __webpack_require__(/*! ../../assets/Icons/curve-arrow.svg */ "./resources/js/assets/Icons/curve-arrow.svg"), alt: "" }
@@ -892,54 +1043,6 @@ var staticRenderFns = [
         attrs: { src: __webpack_require__(/*! ../../assets/Icons/eye.svg */ "./resources/js/assets/Icons/eye.svg"), alt: "" }
       }),
       _vm._v(" Redo")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c("a", { staticClass: "text-dark nav-link", attrs: { href: "#" } }, [
-        _c("img", {
-          attrs: {
-            src: __webpack_require__(/*! ../../assets/Icons/share-symbol.svg */ "./resources/js/assets/Icons/share-symbol.svg"),
-            alt: ""
-          }
-        }),
-        _vm._v(" Share")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c("a", { staticClass: "text-dark nav-link", attrs: { href: "#" } }, [
-        _c("img", {
-          attrs: {
-            src: __webpack_require__(/*! ../../assets/Icons/save-file-option.svg */ "./resources/js/assets/Icons/save-file-option.svg"),
-            alt: ""
-          }
-        }),
-        _vm._v(" Save")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c("a", { staticClass: "text-dark nav-link", attrs: { href: "#" } }, [
-        _c("img", {
-          attrs: {
-            src: __webpack_require__(/*! ../../assets/Icons/download (1).svg */ "./resources/js/assets/Icons/download (1).svg"),
-            alt: ""
-          }
-        }),
-        _vm._v(" Download")
-      ])
     ])
   },
   function() {
@@ -1177,29 +1280,29 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", [
-      _c("div", [
-        _c("p", { staticClass: "text-primary" }, [
-          _vm._v("Upload an image here")
-        ]),
-        _vm._v(" "),
-        _c("button", { staticClass: "btn btn-primary btn-rounded" }, [
+      _c(
+        "div",
+        {
+          staticStyle: {
+            width: "80%",
+            color: "white",
+            padding: "10px",
+            "border-radius": "10px",
+            "font-size": "1.9em",
+            "font-weight": "bold"
+          }
+        },
+        [
           _c("img", {
-            staticStyle: { width: "1.4em" },
             attrs: {
-              src: __webpack_require__(/*! ../../assets/Icons/upload-slim.svg */ "./resources/js/assets/Icons/upload-slim.svg"),
-              alt: ""
+              src: __webpack_require__(/*! ../../assets/img/recent.jpg */ "./resources/js/assets/img/recent.jpg"),
+              alt: "",
+              height: "150px",
+              width: "200px"
             }
-          }),
-          _vm._v("   SELECT FILE")
-        ]),
-        _vm._v(" "),
-        _c("br"),
-        _c("br"),
-        _vm._v(" "),
-        _c("p", [_vm._v("You can also drag and drop 1 or more pictures")])
-      ]),
-      _vm._v(" "),
-      _c("br")
+          })
+        ]
+      )
     ])
   },
   function() {
@@ -1208,91 +1311,28 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", [
       _c(
-        "p",
+        "div",
         {
-          staticClass: "text-primary",
-          staticStyle: { "padding-bottom": "10px" }
+          staticStyle: {
+            width: "80%",
+            padding: "10px",
+            color: "white",
+            "border-radius": "10px",
+            "font-size": "1.9em",
+            "font-weight": "bold"
+          }
         },
-        [_vm._v("Recent Uploads")]
-      ),
-      _vm._v(" "),
-      _c("div", [
-        _c(
-          "div",
-          {
-            staticStyle: {
-              width: "80%",
-              color: "white",
-              padding: "10px",
-              "border-radius": "10px",
-              "font-size": "1.9em",
-              "font-weight": "bold"
+        [
+          _c("img", {
+            attrs: {
+              src: __webpack_require__(/*! ../../assets/img/recent.jpg */ "./resources/js/assets/img/recent.jpg"),
+              alt: "",
+              height: "150px",
+              width: "200px"
             }
-          },
-          [
-            _c("img", {
-              attrs: {
-                src: __webpack_require__(/*! ../../assets/img/recent.jpg */ "./resources/js/assets/img/recent.jpg"),
-                alt: "",
-                height: "150px",
-                width: "200px"
-              }
-            })
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", [
-        _c(
-          "div",
-          {
-            staticStyle: {
-              width: "80%",
-              color: "white",
-              padding: "10px",
-              "border-radius": "10px",
-              "font-size": "1.9em",
-              "font-weight": "bold"
-            }
-          },
-          [
-            _c("img", {
-              attrs: {
-                src: __webpack_require__(/*! ../../assets/img/recent.jpg */ "./resources/js/assets/img/recent.jpg"),
-                alt: "",
-                height: "150px",
-                width: "200px"
-              }
-            })
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", [
-        _c(
-          "div",
-          {
-            staticStyle: {
-              width: "80%",
-              padding: "10px",
-              color: "white",
-              "border-radius": "10px",
-              "font-size": "1.9em",
-              "font-weight": "bold"
-            }
-          },
-          [
-            _c("img", {
-              attrs: {
-                src: __webpack_require__(/*! ../../assets/img/recent.jpg */ "./resources/js/assets/img/recent.jpg"),
-                alt: "",
-                height: "150px",
-                width: "200px"
-              }
-            })
-          ]
-        )
-      ])
+          })
+        ]
+      )
     ])
   },
   function() {
@@ -1324,119 +1364,105 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "color-list" }, [
-      _c("div", { staticClass: "container-fluid edit" }, [
-        _c("div", { staticClass: "list" }, [
-          _c("ul", [
-            _c("li", { staticClass: "li-active" }, [
-              _c("a", { attrs: { href: "builder-color.html" } }, [
-                _c("div", { staticClass: "circle" })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("a", { attrs: { href: "builder-filter.html" } }, [
-                _c("img", {
-                  attrs: {
-                    src: __webpack_require__(/*! ../../assets/Icons/filter.svg */ "./resources/js/assets/Icons/filter.svg"),
-                    alt: ""
-                  }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("a", { attrs: { href: "builder-adjustment.html" } }, [
-                _c("img", {
-                  staticClass: "rotate",
-                  attrs: {
-                    src: __webpack_require__(/*! ../../assets/Icons/volume-levels.svg */ "./resources/js/assets/Icons/volume-levels.svg"),
-                    alt: ""
-                  }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("a", { attrs: { href: "crop.html" } }, [
-                _c("img", {
-                  attrs: {
-                    src: __webpack_require__(/*! ../../assets/Icons/crop.svg */ "./resources/js/assets/Icons/crop.svg"),
-                    alt: ""
-                  }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("a", { attrs: { href: "rotation.html" } }, [
-                _c("img", {
-                  attrs: {
-                    src: __webpack_require__(/*! ../../assets/Icons/rotating-arrow-to-the-left.svg */ "./resources/js/assets/Icons/rotating-arrow-to-the-left.svg"),
-                    alt: ""
-                  }
-                })
-              ])
-            ])
+    return _c("div", { staticClass: "list" }, [
+      _c("ul", [
+        _c("li", { staticClass: "li-active" }, [
+          _c("a", { attrs: { href: "builder-color.html" } }, [
+            _c("div", { staticClass: "circle" })
           ])
         ]),
         _vm._v(" "),
-        _c("div", {}, [
-          _c("br"),
-          _vm._v(" "),
-          _c("br"),
-          _vm._v(" "),
-          _c("br"),
-          _vm._v(" "),
-          _c("br"),
-          _vm._v(" "),
-          _c("div", { staticClass: "row" }, [
-            _c("canvas", { attrs: { id: "canvas" } })
+        _c("li", [
+          _c("a", { attrs: { href: "builder-filter.html" } }, [
+            _c("img", {
+              attrs: { src: __webpack_require__(/*! ../../assets/Icons/filter.svg */ "./resources/js/assets/Icons/filter.svg"), alt: "" }
+            })
           ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "list" }, [
-          _c("ul", [
-            _c(
-              "li",
-              {
-                attrs: {
-                  id: "tooltip",
-                  "data-toggle": "tooltip",
-                  "data-placement": "top",
-                  title: "Add New"
-                }
-              },
-              [
-                _c("img", {
-                  attrs: {
-                    src: __webpack_require__(/*! ../../assets/Icons/delete-photo.svg */ "./resources/js/assets/Icons/delete-photo.svg"),
-                    alt: ""
-                  }
-                })
-              ]
-            ),
-            _vm._v(" "),
-            _c("li", [
-              _c("img", {
-                attrs: {
-                  src: __webpack_require__(/*! ../../assets/Icons/delete-photo.svg */ "./resources/js/assets/Icons/delete-photo.svg"),
-                  alt: ""
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("img", {
-                attrs: {
-                  src: __webpack_require__(/*! ../../assets/Icons/copy-content.svg */ "./resources/js/assets/Icons/copy-content.svg"),
-                  alt: ""
-                }
-              })
-            ])
+        _c("li", [
+          _c("a", { attrs: { href: "builder-adjustment.html" } }, [
+            _c("img", {
+              staticClass: "rotate",
+              attrs: {
+                src: __webpack_require__(/*! ../../assets/Icons/volume-levels.svg */ "./resources/js/assets/Icons/volume-levels.svg"),
+                alt: ""
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("li", [
+          _c("a", { attrs: { href: "crop.html" } }, [
+            _c("img", {
+              attrs: { src: __webpack_require__(/*! ../../assets/Icons/crop.svg */ "./resources/js/assets/Icons/crop.svg"), alt: "" }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("li", [
+          _c("a", { attrs: { href: "rotation.html" } }, [
+            _c("img", {
+              attrs: {
+                src: __webpack_require__(/*! ../../assets/Icons/rotating-arrow-to-the-left.svg */ "./resources/js/assets/Icons/rotating-arrow-to-the-left.svg"),
+                alt: ""
+              }
+            })
           ])
         ])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", {}, [
+      _c("br"),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c("canvas", { attrs: { id: "canvas" } })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "li",
+      {
+        attrs: {
+          id: "tooltip",
+          "data-toggle": "tooltip",
+          "data-placement": "top",
+          title: "Add New"
+        }
+      },
+      [
+        _c("img", {
+          attrs: {
+            src: __webpack_require__(/*! ../../assets/Icons/delete-photo.svg */ "./resources/js/assets/Icons/delete-photo.svg"),
+            alt: ""
+          }
+        })
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c("img", {
+        attrs: { src: __webpack_require__(/*! ../../assets/Icons/copy-content.svg */ "./resources/js/assets/Icons/copy-content.svg"), alt: "" }
+      })
     ])
   },
   function() {
@@ -1523,17 +1549,6 @@ module.exports = "/images/delete-photo.svg?2239c602373732f2fa951f5790fabf07";
 
 /***/ }),
 
-/***/ "./resources/js/assets/Icons/download (1).svg":
-/*!****************************************************!*\
-  !*** ./resources/js/assets/Icons/download (1).svg ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "/images/download (1).svg?ca040d283d2eb6010767f1ffaf1af9e8";
-
-/***/ }),
-
 /***/ "./resources/js/assets/Icons/eye.svg":
 /*!*******************************************!*\
   !*** ./resources/js/assets/Icons/eye.svg ***!
@@ -1586,28 +1601,6 @@ module.exports = "/fonts/font.svg?8d3a7b02f46a8aa674fd3166aae1238d";
 /***/ (function(module, exports) {
 
 module.exports = "/images/rotating-arrow-to-the-left.svg?b1f1b46c3e73113090db95beaaca761e";
-
-/***/ }),
-
-/***/ "./resources/js/assets/Icons/save-file-option.svg":
-/*!********************************************************!*\
-  !*** ./resources/js/assets/Icons/save-file-option.svg ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "/images/save-file-option.svg?088fd1698f74798d99daf5d6713473a9";
-
-/***/ }),
-
-/***/ "./resources/js/assets/Icons/share-symbol.svg":
-/*!****************************************************!*\
-  !*** ./resources/js/assets/Icons/share-symbol.svg ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "/images/share-symbol.svg?0585347c5fe38415492ca2b1ef4d188a";
 
 /***/ }),
 

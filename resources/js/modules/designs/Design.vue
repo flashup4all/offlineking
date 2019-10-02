@@ -20,12 +20,12 @@
             </ul>
             
             <ul class="navbar-nav my-2 my-lg-0 ad-nav">
-              <li class="nav-item"><a href="#" class="text-dark nav-link"><img src="../../assets/Icons/eye.svg" alt=""> Preview</a></li>
+              <!-- <li class="nav-item"><a href="#" class="text-dark nav-link"><img src="../../assets/Icons/eye.svg" alt=""> Preview</a></li> -->
               <li class="nav-item" @click="undo()"><a class="text-dark nav-link"><img src="../../assets/Icons/curve-arrow.svg" alt=""> Undo</a></li>
               <li class="nav-item" @click="redo()"><a class="text-dark nav-link"><img src="../../assets/Icons/eye.svg" alt=""> Redo</a></li>
-              <li class="nav-item"><a href="#" class="text-dark nav-link"><img src="../../assets/Icons/share-symbol.svg" alt=""> Share</a></li>
+              <!-- <li class="nav-item"><a href="#" class="text-dark nav-link"><img src="../../assets/Icons/share-symbol.svg" alt=""> Share</a></li>
               <li class="nav-item"><a href="#" class="text-dark nav-link"><img src="../../assets/Icons/save-file-option.svg" alt=""> Save</a></li>
-              <li class="nav-item"><a href="#" class="text-dark nav-link"><img src="../../assets/Icons/download (1).svg" alt=""> Download</a></li>
+              <li class="nav-item"><a href="#" class="text-dark nav-link"><img src="../../assets/Icons/download (1).svg" alt=""> Download</a></li> -->
               
               <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -123,7 +123,11 @@
                <div>
                         <div>
                             <p class="text-primary">Upload an image here</p>
-                            <button class="btn btn-primary btn-rounded"><img src="../../assets/Icons/upload-slim.svg" alt="" style="width: 1.4em;"> &nbsp; SELECT FILE</button>
+                            <button class="btn btn-primary btn-rounded">
+                                 <label for="image">
+                                      <input type="file" name="image" id="image" style="display:none;" @change="onFileChange"/>
+                                      <img src="../../assets/Icons/upload-slim.svg" alt="" style="width: 1.4em;"> &nbsp; SELECT FILE
+                                 </label></button>
                             <br><br>
                             <p>You can also drag and drop 1 or more pictures</p>
                         </div>
@@ -133,8 +137,8 @@
                   <div>
                       <p class="text-primary" style="padding-bottom: 10px;">Recent Uploads</p>
                       <div>
-                        <div style="width: 80%; color: white;padding:10px;border-radius: 10px;font-size: 1.9em;font-weight: bold;">
-                          <img src="../../assets/img/recent.jpg" alt="" height="150px" width="200px">
+                        <div @click="onAddImage('recent1')" style="width: 80%; color: white;padding:10px;border-radius: 10px;font-size: 1.9em;font-weight: bold;">
+                          <img src="../../assets/img/recent.jpg" alt="" id="recent1" height="150px" width="200px">
                         </div>
                       </div>
                       <div>
@@ -240,7 +244,7 @@
                 <div class="list">
                     <ul>
                       <li id="tooltip" data-toggle="tooltip" data-placement="top" title="Add New"><img src="../../assets/Icons/delete-photo.svg" alt=""></li>
-                      <li><img src="../../assets/Icons/delete-photo.svg" alt=""></li>
+                      <li @click="deleteObject"><img src="../../assets/Icons/delete-photo.svg" alt=""></li>
                       <li><img src="../../assets/Icons/copy-content.svg" alt=""></li>
                     </ul>
                   </div>
@@ -350,15 +354,43 @@
                 });
                 this.canvas.add(iText4);
             },
-            onAddImage() {
-                var imgElement = document.getElementById('my-image');
-                var imgInstance = new fabric.Image(imgElement, {
-                    left: 100,
-                    top: 100,
-                    angle: 30,
-                    opacity: 0.85
+            onAddImage(id) {
+                var imgElement = document.getElementById(id);
+                var imgInstance = new fabric.Image(imgElement, (img) =>{
+                let scale = 900 / img.width;
+                    img.set({
+                    // left: left,
+                    top: top,
+                    scaleX: 300 / img.width,
+                    scaleY: 300 / img.height,
+                    // angle: 0,
+                    // padding: 10,
+                    // cornersize: 10,
+                    // hasRotatingPoint:true,
+                    
+                });
+               
+                this.canvas.add(image);
                 });
                 this.canvas.add(imgInstance);
+            },
+            deleteObject() {
+                var activeObject = this.canvas.getActiveObject(),
+                activeGroup = this.canvas.getActiveGroup();
+                if (activeObject) {
+                    if (confirm('Are you sure?')) {
+                        this.canvas.remove(activeObject);
+                    }
+                }
+                else if (activeGroup) {
+                    if (confirm('Are you sure?')) {
+                        var objectsInGroup = activeGroup.getObjects();
+                        canvas.discardActiveGroup();
+                        objectsInGroup.forEach(function(object) {
+                        this.canvas.remove(object);
+                        });
+                    }
+                }
             },
             check_active_object_type(e){
                 console.log(e)
@@ -369,7 +401,34 @@
             },
             redo(){
                 this.canvas.redo();
-            }
+            },
+            onFileChange(e) {
+              const file = e.target.files[0];
+               let url = URL.createObjectURL(file);
+               var imgInstance = new fabric.Image(url, {
+                    left: 100,
+                    top: 100,
+                    angle: 30,
+                    opacity: 0.85
+                });
+                this.canvas.add(imgInstance);
+            //   let url = URL.createObjectURL(file);
+              //let data = new FormData();
+              // data.append('name', 'my-picture');
+              //data.append('avatar', event.target.files[0]); 
+              //var file = e.target.files[0];
+                // var reader = new FileReader();
+                // reader.onload = function(f) {
+                //     var data = f.target.result;
+                //     fabric.Image.fromURL(data, function(img) {
+                //         var oImg = img.set({ left: 50, top: 100 }).scale(0.9);
+                //         this.canvas.add(oImg).renderAll();
+                //         this.canvas.setActiveObject(oImg);
+                //     });
+                // };
+                // reader.readAsDataURL(file);
+              
+            },
         }
     }
 </script>
