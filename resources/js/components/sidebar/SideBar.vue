@@ -20,9 +20,10 @@
       </li>
       <!-- Nav Item - Dashboard -->
       <li class="nav-item">
-        <a class="nav-link">
+        <router-link :to="{ name: 'designs' }" class="nav-link">
           <img class="img-fluid nav-link-svg mx-2" src="../../assets/Icons/seo-template.svg" alt="">
-          <span>Template</span></a>
+          <span>Template</span>
+        </router-link>
       </li>
      <li class="nav-item">
         <a class="nav-link" href="photos.html">

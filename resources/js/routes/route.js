@@ -5,7 +5,7 @@ import local from '../shared/storage/local.js';
 Vue.use(Router);
 
 const router = new Router({
-    mode: 'history',
+    // mode: 'history',
     routes: [
         {
             path: '*',
@@ -66,6 +66,32 @@ const router = new Router({
                     name: 'settings',
                     //meta: {layout: 'userpages'},
                     component: () => import('../modules/user/Settings.vue'),
+                }
+            ],
+            beforeEnter(to, from, next) {
+                let token = local.get_token();
+                if(token)
+                {
+                    next()
+                } else {
+                    next({
+                      name: "auth" // back to safety route //
+                    });
+                }
+                // logic here
+              }
+        },
+        {
+            path: '/designs',
+            //name: 'app',
+            //meta: {layout: 'userpages'},
+            component: () => import('../components/layouts/DesignLayout.vue'),
+            children:[
+                {
+                    path: '/',
+                    name: 'designs',
+                    //meta: {layout: 'userpages'},
+                    component: () => import('../modules/designs/Design.vue'),
                 }
             ],
             beforeEnter(to, from, next) {

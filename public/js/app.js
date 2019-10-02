@@ -2431,6 +2431,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {}
 });
@@ -32987,6 +32988,29 @@ var render = function() {
         1
       ),
       _vm._v(" "),
+      _c(
+        "li",
+        { staticClass: "nav-item" },
+        [
+          _c(
+            "router-link",
+            { staticClass: "nav-link", attrs: { to: { name: "designs" } } },
+            [
+              _c("img", {
+                staticClass: "img-fluid nav-link-svg mx-2",
+                attrs: {
+                  src: __webpack_require__(/*! ../../assets/Icons/seo-template.svg */ "./resources/js/assets/Icons/seo-template.svg"),
+                  alt: ""
+                }
+              }),
+              _vm._v(" "),
+              _c("span", [_vm._v("Template")])
+            ]
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
       _vm._m(1),
       _vm._v(" "),
       _vm._m(2),
@@ -32996,8 +33020,6 @@ var render = function() {
       _vm._m(4),
       _vm._v(" "),
       _vm._m(5),
-      _vm._v(" "),
-      _vm._m(6),
       _vm._v(" "),
       _c(
         "li",
@@ -33022,11 +33044,11 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm._m(7),
+      _vm._m(6),
       _vm._v(" "),
       _c("hr", { staticClass: "sidebar-divider d-none d-md-block" }),
       _vm._v(" "),
-      _vm._m(8)
+      _vm._m(7)
     ]
   )
 }
@@ -33063,24 +33085,6 @@ var staticRenderFns = [
         ])
       ]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c("a", { staticClass: "nav-link" }, [
-        _c("img", {
-          staticClass: "img-fluid nav-link-svg mx-2",
-          attrs: {
-            src: __webpack_require__(/*! ../../assets/Icons/seo-template.svg */ "./resources/js/assets/Icons/seo-template.svg"),
-            alt: ""
-          }
-        }),
-        _vm._v(" "),
-        _c("span", [_vm._v("Template")])
-      ])
-    ])
   },
   function() {
     var _vm = this
@@ -49742,7 +49746,7 @@ __webpack_require__.r(__webpack_exports__);
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
-  mode: 'history',
+  // mode: 'history',
   routes: [{
     path: '*',
     redirect: '/auth'
@@ -49773,7 +49777,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
         layout: 'userpages'
       },
       component: function component() {
-        return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ../modules/user/Signup.vue */ "./resources/js/modules/user/Signup.vue"));
+        return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ../modules/user/Signup.vue */ "./resources/js/modules/user/Signup.vue"));
       }
     }, {
       path: '/forgot-password',
@@ -49782,7 +49786,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
         layout: 'userpages'
       },
       component: function component() {
-        return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ../modules/user/ForgetPassword.vue */ "./resources/js/modules/user/ForgetPassword.vue"));
+        return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ../modules/user/ForgetPassword.vue */ "./resources/js/modules/user/ForgetPassword.vue"));
       }
     }, {
       path: '/reset-password/:user_crypt_id',
@@ -49813,7 +49817,35 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
       name: 'settings',
       //meta: {layout: 'userpages'},
       component: function component() {
-        return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ../modules/user/Settings.vue */ "./resources/js/modules/user/Settings.vue"));
+        return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ../modules/user/Settings.vue */ "./resources/js/modules/user/Settings.vue"));
+      }
+    }],
+    beforeEnter: function beforeEnter(to, from, next) {
+      var token = _shared_storage_local_js__WEBPACK_IMPORTED_MODULE_2__["default"].get_token();
+
+      if (token) {
+        next();
+      } else {
+        next({
+          name: "auth" // back to safety route //
+
+        });
+      } // logic here
+
+    }
+  }, {
+    path: '/designs',
+    //name: 'app',
+    //meta: {layout: 'userpages'},
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ../components/layouts/DesignLayout.vue */ "./resources/js/components/layouts/DesignLayout.vue"));
+    },
+    children: [{
+      path: '/',
+      name: 'designs',
+      //meta: {layout: 'userpages'},
+      component: function component() {
+        return Promise.all(/*! import() */[__webpack_require__.e(6), __webpack_require__.e(0)]).then(__webpack_require__.bind(null, /*! ../modules/designs/Design.vue */ "./resources/js/modules/designs/Design.vue"));
       }
     }],
     beforeEnter: function beforeEnter(to, from, next) {
