@@ -342,7 +342,6 @@
                 //this.active = !this.active
                 this.group_divs = [];
                 this.group_divs.status = !this.group_divs.status;
-                console.log(this.group_divs.status)
                 this.group_divs.name = div;
             },
              onAddText(text) {
@@ -358,19 +357,13 @@
                 var imgElement = document.getElementById(id);
                 var imgInstance = new fabric.Image(imgElement, (img) =>{
                 let scale = 900 / img.width;
+                    img.filters.push(new fabric.Image.filters.Grayscale());
                     img.set({
-                    // left: left,
-                    top: top,
-                    scaleX: 300 / img.width,
-                    scaleY: 300 / img.height,
-                    // angle: 0,
-                    // padding: 10,
-                    // cornersize: 10,
-                    // hasRotatingPoint:true,
-                    
-                });
+                        scaleX: scale,
+                        scaleY: scale
+                    });
                
-                this.canvas.add(image);
+                // this.canvas.add(img);
                 });
                 this.canvas.add(imgInstance);
             },

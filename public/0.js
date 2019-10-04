@@ -348,7 +348,6 @@ __webpack_require__.r(__webpack_exports__);
       //this.active = !this.active
       this.group_divs = [];
       this.group_divs.status = !this.group_divs.status;
-      console.log(this.group_divs.status);
       this.group_divs.name = div;
     },
     onAddText: function onAddText(text) {
@@ -361,23 +360,14 @@ __webpack_require__.r(__webpack_exports__);
       this.canvas.add(iText4);
     },
     onAddImage: function onAddImage(id) {
-      var _this = this;
-
       var imgElement = document.getElementById(id);
       var imgInstance = new fabric__WEBPACK_IMPORTED_MODULE_0__["fabric"].Image(imgElement, function (img) {
         var scale = 900 / img.width;
+        img.filters.push(new fabric__WEBPACK_IMPORTED_MODULE_0__["fabric"].Image.filters.Grayscale());
         img.set({
-          // left: left,
-          top: top,
-          scaleX: 300 / img.width,
-          scaleY: 300 / img.height // angle: 0,
-          // padding: 10,
-          // cornersize: 10,
-          // hasRotatingPoint:true,
-
-        });
-
-        _this.canvas.add(image);
+          scaleX: scale,
+          scaleY: scale
+        }); // this.canvas.add(img);
       });
       this.canvas.add(imgInstance);
     },
